@@ -5,21 +5,25 @@ GridState::GridState(int x, int y)
   : m_x(x)
   , m_y(y) { }
 
-int GridState::getX() const {
+int GridState::getX() const
+{
   return m_x;
 }
 
-int GridState::getY() const {
+int GridState::getY() const
+{
   return m_y;
 }
 
-bool GridState::operator<(const GridState& other) const {
+bool GridState::operator<(const GridState& other) const
+{
   if(m_x != other.m_x)
     return m_x < other.m_x;
   return m_y < other.m_y;
 }
 
-bool GridState::operator==(const GridState& other) const {
+bool GridState::operator==(const GridState& other) const
+{
   if(m_x != other.m_x)
     return false;
   if(m_y != other.m_y)
@@ -29,7 +33,8 @@ bool GridState::operator==(const GridState& other) const {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-GridNode::~GridNode() { }
+GridNode::~GridNode()
+{ }
 
 GridNode::GridNode(const GridState& state, const unsigned char* board, int boardWidth, int boardHeight)
   : AI::Node<GridState, int>(state)
@@ -38,7 +43,8 @@ GridNode::GridNode(const GridState& state, const unsigned char* board, int board
   , m_boardHeight(boardHeight)
 { }
 
-std::vector<AI::Node<GridState, int>::SharedPtr> GridNode::getChildren() const {
+std::vector<AI::Node<GridState, int>::SharedPtr> GridNode::getChildren() const
+{
   //Populates the cildren vector with the possible moves from this state.
   //The nodes are allocated using the new keyword. A memory pool might be a
   //better choice. I do not want to use a third party library and dont have
@@ -49,50 +55,61 @@ std::vector<AI::Node<GridState, int>::SharedPtr> GridNode::getChildren() const {
   int y = this->getState().getY();
 
   //Try step to the right.
-  if(boardAt(x+1, y)) {
+  if(boardAt(x+1, y))
+  {
      children.push_back(AI::Node<GridState, int>::SharedPtr(new GridNode(GridState(x+1, y), m_board, m_boardWidth, m_boardHeight)));
   }
 
   //Try step to the left.
-  if(boardAt(x-1, y)) {
+  if(boardAt(x-1, y))
+  {
     children.push_back(AI::Node<GridState, int>::SharedPtr(new GridNode(GridState(x-1, y), m_board, m_boardWidth, m_boardHeight)));
   }
 
-  //Try step to the north.
-  if(boardAt(x, y+1)) {
+  //Try step to the south.
+  if(boardAt(x, y+1))
+  {
     children.push_back(AI::Node<GridState, int>::SharedPtr(new GridNode(GridState(x, y+1), m_board, m_boardWidth, m_boardHeight)));
   }
 
-  //Try step to the south.
-  if(boardAt(x, y-1)) {
+  //Try step to the north.
+  if(boardAt(x, y-1))
+  {
     children.push_back(AI::Node<GridState, int>::SharedPtr(new GridNode(GridState(x, y-1), m_board, m_boardWidth, m_boardHeight)));
   }
   return children;
 }
 
-AI::Node<GridState, int>*  GridNode::clone() const {
+AI::Node<GridState, int>*  GridNode::clone() const
+{
   return new GridNode(*this);
 }
 
-int GridNode::calculateAndGetG(typename AI::Node<GridState, int>::SharedPtr parent, typename AI::Node<GridState, int>::SharedPtr /*start*/) const {
+int GridNode::calculateAndGetG(typename AI::Node<GridState, int>::SharedPtr parent, typename AI::Node<GridState, int>::SharedPtr /*start*/) const
+{
   //The steps taken plus one (the next)
   int parentG = 0;
   if(parent)
+  {
     parentG = parent->getG();
+  }
   return parentG + 1;
 }
 
-int GridNode::calculateAndGetH(typename AI::Node<GridState, int>::SharedPtr /*parent*/, typename AI::Node<GridState, int>::SharedPtr goal) const {
+int GridNode::calculateAndGetH(typename AI::Node<GridState, int>::SharedPtr /*parent*/, typename AI::Node<GridState, int>::SharedPtr goal) const
+{
   //Manhattan distance
   int dx =  abs(this->getState().getX() - goal->getState().getX());
   int dy =  abs(this->getState().getY() - goal->getState().getY());
   return dx + dy;
 }
 
-char GridNode::boardAt(int x, int y) const {
-  if(x < 0 || x >= m_boardWidth)
+unsigned char GridNode::boardAt(int x, int y) const {
+  if(x < 0 || x >= m_boardWidth) {
     return 0;
-  if(y < 0 || y >= m_boardHeight)
+  }
+  if(y < 0 || y >= m_boardHeight) {
     return 0;
+  }
   return m_board[y*m_boardWidth + x];
 }

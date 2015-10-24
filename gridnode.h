@@ -42,7 +42,7 @@ private:
 
   int calculateAndGetH(typename AI::Node<GridState, int>::SharedPtr /*parent*/, typename AI::Node<GridState, int>::SharedPtr goal) const;
 
-  char boardAt(int x, int y) const;
+  unsigned char boardAt(int x, int y) const;
 
   const unsigned char* const m_board;
   int m_boardWidth;

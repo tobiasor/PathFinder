@@ -11,16 +11,17 @@ namespace AI
 
 /**
     The Node is used by the path finding algorithm. A Node Must be able to expand it's children with the
-    GetChildren method. this means that it must return all the Nodes to where it is possible to walk from
+    'getChildren' method. this means that it must return all the Nodes to where it is possible to walk from
     this Node.
 
     The Node must also be able to evaluate it's heuristic value. The heuristic must be calculated in the
-    CalculateAndGetG and CalculateAndGetH methods.
+    'calculateAndGetG' and 'calculateAndGetH' methods.
 
-    The last thing to notice is that you must set the template parameter State. The State is the actual Node
-    data. In a path finding search the State will be the agent's position. In a 8-puzzle search the State
-    will be the actual board. The State must implement the < operator and the == operator.
+    The 'State' template parameter is the actual Node data. In a path finding search the State will be
+    the agent's position. In a 8-puzzle search the 'State' will be the actual board.
+    The State must implement the < operator and the == operator.
 
+    The 'HeuristicsType' template parameter is the data type used for the heurisics calculations.
     */
 template <typename State, typename HeuristicsType>
 class Node
@@ -114,6 +115,8 @@ private:
   bool isDeleted() const { return m_isDeleted; }
 };
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 /**
     Algorithm A is a heuristic search algorithm whose primary use is to find a
     path between two Nodes. The algorithm will work as long as it
@@ -128,11 +131,11 @@ private:
 
     The search is semi-asyncronyous. The user first call the method 'begin'.
     This call will tell the path finder that we want to find a path between
-    two states. Next the user have to run the method 'next' until it returns
+    two Nodes. Next the user have to run the method 'next' until it returns
     true. When the method returns true we can call 'getPath'. This makes it
     possible to calculate paths without stalling a simulation/game-loop.
 
-    It would be easy to call 'next' for multiple agents in parallel in
+    It would be easy to call 'next' for multiple agents in parallel during
     one simulation tick.
     */
 template <typename State, typename HeuristicsType>
@@ -172,8 +175,8 @@ public:
 
   ///Method that finds a path iterative.
   /**
-      Next finds the path declared with Begin.
-      A path is found when Next returns true. Next must be called untill it returns true.
+      Next try to find the path declared with 'begin'.
+      A path is found when 'next' returns true. 'next' must be called untill it returns true.
       */
   bool next();
 
