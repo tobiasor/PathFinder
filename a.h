@@ -74,10 +74,10 @@ protected:
     , m_isDeleted(false) {}
 
   ///The cost from start to this.
-  virtual HeuristicsType calculateAndGetG(typename Node::SharedPtr parent, typename Node::SharedPtr start) const = 0;
+  virtual HeuristicsType calculateAndGetG(const State& parentState, HeuristicsType parentG) const = 0;
 
   ///The cost between this and the goal.
-  virtual HeuristicsType calculateAndGetH(typename Node::SharedPtr parent, typename Node::SharedPtr goal) const = 0;
+  virtual HeuristicsType calculateAndGetH(const State& goalState) const = 0;
 
   ///Returns the parent Node. Where this Node came from.
   Node::SharedPtr  getParent() const { return m_parent; }
@@ -86,6 +86,8 @@ protected:
   void setH(HeuristicsType h) { m_h = h;}
   void setF(HeuristicsType f) { m_f = f;}
 private:
+
+
   ///The actual state of the node.
   /**
       The state is typically a board in a board game, a triangle in a navmesh
@@ -162,6 +164,7 @@ class A
   typedef std::priority_queue<typename Node<State, HeuristicsType>::SharedPtr, std::deque<typename Node<State, HeuristicsType>::SharedPtr>, PrioQueCompare > NodePriorityQue;
 
 public:
+  A() {}
   void clear();
 
   ///Method that starts an iterative path finding.
@@ -185,7 +188,22 @@ public:
 
   ///Returns true if a path exist.
   bool havePath() const { return (m_path.size() > 0); }
+
+  /**
+    Helper function for getting a path between start and goal in one call.
+   */
+  static std::deque<State> findPath(typename Node<State, HeuristicsType>::SharedPtr start, typename Node<State, HeuristicsType>::SharedPtr goal) {
+    A<State, HeuristicsType> a;
+
+    a.begin(start, goal);
+    while(!a.next()) {}
+    return a.getPath();
+  }
+
 private:
+  A(const A&);
+  A& operator=(const A&);
+
   typename Node<State, HeuristicsType>::SharedPtr m_start;
   typename Node<State, HeuristicsType>::SharedPtr m_goal;
   std::deque<State> m_path;
@@ -194,16 +212,6 @@ private:
   NodeSet m_closedMap;
 };
 
-/**
-  Helper function for getting a path between start and goal in one call.
- */
-template <typename State, typename HeuristicsType>
-std::deque<State> findPath(typename Node<State, HeuristicsType>::SharedPtr start, typename Node<State, HeuristicsType>::SharedPtr goal) {
-  A<State, HeuristicsType> a;
-  a.begin(start, goal);
-  while(!a.next()) {}
-  return a.getPath();
-}
 
 #include "a.inl"
 }

@@ -38,9 +38,9 @@ private:
 
   AI::Node<GridState, int>*  clone() const;
 
-  int calculateAndGetG(typename AI::Node<GridState, int>::SharedPtr parent, typename AI::Node<GridState, int>::SharedPtr /*start*/) const;
+  int calculateAndGetG(const GridState& parentState, int parentG) const;
 
-  int calculateAndGetH(typename AI::Node<GridState, int>::SharedPtr /*parent*/, typename AI::Node<GridState, int>::SharedPtr goal) const;
+  int calculateAndGetH(const GridState& goalState) const;
 
   unsigned char boardAt(int x, int y) const;
 

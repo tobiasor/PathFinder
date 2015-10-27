@@ -28,8 +28,8 @@ void A<State, HeuristicsType>::begin(
   typename Node<State, HeuristicsType>::SharedPtr startClone = typename Node<State, HeuristicsType>::SharedPtr(start->clone());
 
   //Set the heurisic for the start Node.
-  startClone->setG(start->calculateAndGetG(nullptr, start));
-  startClone->setH(start->calculateAndGetH(nullptr, goal));
+  startClone->setG(0);
+  startClone->setH(start->calculateAndGetH(goal->getState()));
   startClone->setF(start->getG() + start->getH());
 
   //place start on open because we need one Node to be traversed at the begining.
@@ -50,6 +50,8 @@ bool A<State, HeuristicsType>::next()
         m_openPrioQue.pop();
         ++i;
       }
+      else
+        break;
     }
     //Get the best candidate. It will always be at the top
     //on openPrioQue because it is sorted on: f = g + h.
@@ -80,8 +82,8 @@ bool A<State, HeuristicsType>::next()
       {
         //Setup the child's properties.
         child->setParent(current);
-        child->setG(child->calculateAndGetG(current, m_start));
-        child->setH(child->calculateAndGetH(current, m_goal));
+        child->setG(child->calculateAndGetG(current->getState(), current->getG()));
+        child->setH(child->calculateAndGetH(m_goal->getState()));
         child->setF(child->getG() + child->getH());
 
         //Search for the child in the open and closed containers.

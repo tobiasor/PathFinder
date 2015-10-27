@@ -85,22 +85,16 @@ AI::Node<GridState, int>*  GridNode::clone() const
   return new GridNode(*this);
 }
 
-int GridNode::calculateAndGetG(typename AI::Node<GridState, int>::SharedPtr parent, typename AI::Node<GridState, int>::SharedPtr /*start*/) const
+int GridNode::calculateAndGetG(const GridState& , int parentG) const
 {
-  //The steps taken plus one (the next)
-  int parentG = 0;
-  if(parent)
-  {
-    parentG = parent->getG();
-  }
   return parentG + 1;
 }
 
-int GridNode::calculateAndGetH(typename AI::Node<GridState, int>::SharedPtr /*parent*/, typename AI::Node<GridState, int>::SharedPtr goal) const
+int GridNode::calculateAndGetH(const GridState& goalState) const
 {
   //Manhattan distance
-  int dx =  abs(this->getState().getX() - goal->getState().getX());
-  int dy =  abs(this->getState().getY() - goal->getState().getY());
+  int dx =  abs(this->getState().getX() - goalState.getX());
+  int dy =  abs(this->getState().getY() - goalState.getY());
   return dx + dy;
 }
 
