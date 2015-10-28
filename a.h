@@ -24,8 +24,7 @@ namespace AI
     The 'HeuristicsType' template parameter is the data type used for the heurisics calculations.
     */
 template <typename State, typename HeuristicsType>
-class Node
-{
+class Node {
 public:
   template<class T, class U> friend class A;
 
@@ -33,8 +32,7 @@ public:
 
   virtual ~Node() {}
 
-  bool operator==(Node<State, HeuristicsType>::SharedPtr other) const
-  {
+  bool operator==(Node<State, HeuristicsType>::SharedPtr other) const {
     return this->getState() == other->getState();
   }
 

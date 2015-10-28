@@ -5,8 +5,7 @@ void testRun1();
 void testRun2();
 void testRun3();
 
-int main()
-{
+int main() {
   testRun1();
   testRun2();
   testRun3();
@@ -14,8 +13,7 @@ int main()
   return 0;
 }
 
-void testRun1()
-{
+void testRun1() {
   int mapWidth = 4;
   int mapHeight = 3;
   unsigned char pMap[] =
@@ -27,15 +25,12 @@ void testRun1()
 
   std::cout << "Num steps: " << nNumSteps << std::endl;
 
-  for(int i = 0; i < nNumSteps; ++i)
-  {
+  for(int i = 0; i < nNumSteps; ++i) {
     pMap[pOutBuffer[i]] = 2;
   }
   int index = 0;
-  for(int i = 0; i < mapHeight; ++i)
-  {
-    for(int j = 0; j < mapWidth; ++j)
-    {
+  for(int i = 0; i < mapHeight; ++i) {
+    for(int j = 0; j < mapWidth; ++j) {
       std::cout << (int)pMap[index];
       index++;
     }
@@ -43,8 +38,7 @@ void testRun1()
   }
 }
 
-void testRun2()
-{
+void testRun2() {
   int mapWidth = 3;
   int mapHeight = 3;
 
@@ -54,15 +48,12 @@ void testRun2()
 
   std::cout << "Num steps: " << nNumSteps << std::endl;
 
-  for(int i = 0; i < nNumSteps; ++i)
-  {
+  for(int i = 0; i < nNumSteps; ++i) {
     pMap[pOutBuffer[i]] = 2;
   }
   int index = 0;
-  for(int i = 0; i < mapHeight; ++i)
-  {
-    for(int j = 0; j < mapWidth; ++j)
-    {
+  for(int i = 0; i < mapHeight; ++i) {
+    for(int j = 0; j < mapWidth; ++j) {
       std::cout << (int)pMap[index];
       index++;
     }
@@ -70,12 +61,10 @@ void testRun2()
   }
 }
 
-void testRun3()
-{
+void testRun3() {
   int mapWidth = 10;
   int mapHeight = 10;
-  unsigned char pMap[] =
-  {
+  unsigned char pMap[] = {
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 0, 0, 1, 1, 1, 1,
@@ -91,15 +80,12 @@ void testRun3()
   int nNumSteps = FindPath(0, 0, 9, 6, pMap, mapWidth, mapHeight, pOutBuffer, 100);
 
   std::cout << "Num steps: " << nNumSteps << std::endl;
-  for(int i = 0; i < nNumSteps; ++i)
-  {
+  for(int i = 0; i < nNumSteps; ++i) {
     pMap[pOutBuffer[i]] = 2;
   }
   int index = 0;
-  for(int i = 0; i < mapHeight; ++i)
-  {
-    for(int j = 0; j < mapWidth; ++j)
-    {
+  for(int i = 0; i < mapHeight; ++i) {
+    for(int j = 0; j < mapWidth; ++j) {
       std::cout << (int)pMap[index];
       index++;
     }

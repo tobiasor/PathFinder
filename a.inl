@@ -1,10 +1,8 @@
 
 template <typename State, typename HeuristicsType>
-void A<State, HeuristicsType>::clear()
-{
+void A<State, HeuristicsType>::clear() {
   //Prority ques cannot be cleared. Dont ask me why.
-  while(!m_openPrioQue.empty())
-  {
+  while(!m_openPrioQue.empty()) {
     m_openPrioQue.pop();
   }
 
@@ -17,8 +15,7 @@ void A<State, HeuristicsType>::clear()
 template <typename State, typename HeuristicsType>
 void A<State, HeuristicsType>::begin(
     typename Node<State, HeuristicsType>::SharedPtr start,
-    typename Node<State, HeuristicsType>::SharedPtr goal)
-{
+    typename Node<State, HeuristicsType>::SharedPtr goal) {
   m_start = start;
   m_goal = goal;
 
@@ -38,15 +35,11 @@ void A<State, HeuristicsType>::begin(
 }
 
 template <typename State, typename HeuristicsType>
-bool A<State, HeuristicsType>::next()
-{
-  if(!m_openMap.empty())
-  {
+bool A<State, HeuristicsType>::next() {
+  if(!m_openMap.empty()) {
     //Delete the entries marked for removal in the priority que.
-    for(std::size_t i=0; i < m_openPrioQue.size(); ++i)
-    {
-      if(m_openPrioQue.top()->isDeleted())
-      {
+    for(std::size_t i=0; i < m_openPrioQue.size(); ++i) {
+      if(m_openPrioQue.top()->isDeleted()) {
         m_openPrioQue.pop();
         ++i;
       }
@@ -63,23 +56,19 @@ bool A<State, HeuristicsType>::next()
     m_openMap.erase(current);
 
     //If we found a match then return the path.
-    if(current->getState() == m_goal->getState())
-    {
+    if(current->getState() == m_goal->getState()) {
       ///////////////////////////////////////////
       //Eureka!!!!!
       ///////////////////////////////////////////
-      while(current)
-      {
+      while(current) {
         m_path.push_front(current->getState());
         current = current->getParent();
       }
       return true;
     }
-    else
-    {
+    else {
       //Expand the current Node's children.
-      for(typename Node<State, HeuristicsType>::SharedPtr child : current->getChildren())
-      {
+      for(typename Node<State, HeuristicsType>::SharedPtr child : current->getChildren()) {
         //Setup the child's properties.
         child->setParent(current);
         child->setG(child->calculateAndGetG(current->getState(), current->getG()));
@@ -91,39 +80,33 @@ bool A<State, HeuristicsType>::next()
         typename NodeSet::iterator inOpenMapIt = m_openMap.find(child);
 
         //If the child is in open.
-        if(inOpenMapIt != m_openMap.end())
-        {
+        if(inOpenMapIt != m_openMap.end()) {
           //The child is not better then the node in open.
           //We call continue because we do not want the child to be
           //stored in the open vector.
-          if((*inOpenMapIt)->getG() <= child->getG())
-          {
+          if((*inOpenMapIt)->getG() <= child->getG()) {
             continue;
           }
         }
         //If the child is in closed.
-        if(inClosedMapIt != m_closedMap.end())
-        {
+        if(inClosedMapIt != m_closedMap.end()) {
           //The child is not better then the node in closed.
           //We call continue because we do not want the child to be
           //moved to the open vector.
-          if((*inClosedMapIt)->getG() <= child->getG())
-          {
+          if((*inClosedMapIt)->getG() <= child->getG()) {
             continue;
           }
         }
         //Erase the child from the open and closed vectors
         //and add it to the open vector.
-        if(inOpenMapIt != m_openMap.end())
-        {
+        if(inOpenMapIt != m_openMap.end()) {
           //It is not possible to remove an object from a std::priority_queue without traversing the whole thing.
           //Because of that the node have a state that tells it to remove itself from the que. Not nice
           //but i prefer this solusion over writing my own priority que for now.
           (*inOpenMapIt)->setIsDeleted(true);
           m_openMap.erase(inOpenMapIt);
         }
-        if(inClosedMapIt != m_closedMap.end())
-        {
+        if(inClosedMapIt != m_closedMap.end()) {
           m_closedMap.erase(inClosedMapIt);
         }
         m_openMap.insert(child);
@@ -131,8 +114,7 @@ bool A<State, HeuristicsType>::next()
       }
     }
   }
-  else
-  {
+  else {
     //We did not find a path but the search is over.
     return true;
   }

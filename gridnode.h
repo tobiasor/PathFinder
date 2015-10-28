@@ -5,8 +5,7 @@
 /**
  * @brief The GridState class represents a position in a rectangular grid.
  */
-class GridState
-{
+class GridState {
 public:
   GridState(int x, int y);
 
@@ -26,8 +25,7 @@ private:
 /**
  * @brief The GridNode class represents a node used for navigation on a rectangular grid.
  */
-class GridNode :  public AI::Node<GridState, int>
-{
+class GridNode :  public AI::Node<GridState, int> {
 public:
   ~GridNode();
 
