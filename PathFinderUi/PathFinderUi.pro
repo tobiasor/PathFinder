@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
-
+CONFIG += c++11
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = PathFinderUi
@@ -14,9 +14,15 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    mygraphicsscene.cpp
+    mygraphicsscene.cpp \
+    ../a.inl \
+    ../findpath.cpp \
+    ../gridnode.cpp
 
 HEADERS  += mainwindow.h \
-    mygraphicsscene.h
+    mygraphicsscene.h \
+    ../a.h \
+    ../findpath.h \
+    ../gridnode.h
 
 FORMS    += mainwindow.ui

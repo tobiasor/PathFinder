@@ -10,6 +10,8 @@ public:
   MyGraphicsScene(QObject* parent);
 
   virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
+  virtual void keyPressEvent(QKeyEvent *event);
+  virtual void keyReleaseEvent(QKeyEvent *event);
 
 signals:
 
