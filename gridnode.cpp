@@ -29,6 +29,7 @@ bool GridState::operator==(const GridState& other) const {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
 GridNode::~GridNode() { }
 
 GridNode::GridNode(const GridState& state, const unsigned char* board, int boardWidth, int boardHeight)

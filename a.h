@@ -21,7 +21,7 @@ namespace AI
     the agent's position. In a 8-puzzle search the 'State' will be the actual board.
     The State must implement the < operator and the == operator.
 
-    The 'HeuristicsType' template parameter is the data type used for the heurisics calculations.
+    The 'HeuristicsType' template parameter is the data type used for the heuristics calculations.
     */
 template <typename State, typename HeuristicsType>
 class Node {
@@ -39,12 +39,7 @@ public:
   ///A node must be clonable.
   virtual Node*  clone() const = 0;
 
-  ///Returns the sub Nodes. It is important that the child nodes are unique.
-  /**
-      getChildren must return unique child nodes. If the search space already contains the nodes
-      Then they must be cloned before returned. This is slow but you can use your own allocator.
-      The boost library contain a pool that serves well for this purpose.
-      */
+  ///Returns the sub Nodes.
   virtual std::vector<typename Node::SharedPtr> getChildren() const = 0;
 
   ///Returns the node's State.
